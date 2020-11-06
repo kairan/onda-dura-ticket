@@ -1,37 +1,34 @@
 import React, {Component} from 'react';
 
+import {handleForInputChangeOnForm, post} from '../utils';
+
+
 import logoActive from '../img/LOGO-OD.png';
 import Columns, { Column } from './Columns';
+import notification from '../notification'
 
 class UserRegister extends Component {
   constructor(props){
     super(props);
     this.state = {
       formData: {
-        id: 0,
-        description: null,
-        snap_date: null,
-        snap_time_begin: null,
-        snap_time_end: null
+        name: '',
+        mail: ''
       },
-      isAuthOK: true,
-      decoded: {},
       isLoading: false,
-      fileName: '',
-      fileSelected: '',
-      step: 0,
-      stepEnd: 0,
     }
   }
 
-  componentDidMount(){
-    
+  onClick = () => {
+    const {formData} = this.state;
+    console.log(formData)
+    post('users', formData).then(resp => {
+      console.log(resp)
+    })
   }
-
   render() {
 
-    const {formData, isLoading, step, stepEnd} = this.state;
-    console.log(step, stepEnd);
+    const {formData, isLoading } = this.state;
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems:'center', padding: '5%', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#25282a' }}>
         <div style={{  top: 30, width: 700, height: 500 }}>
@@ -50,7 +47,8 @@ class UserRegister extends Component {
                   <div className="control">
                     <input className="input" type="text" placeholder="Nome Completo"
                       id="name"
-                      value={formData.name}
+                      onChange={handleForInputChangeOnForm.bind(this)}
+                      value={formData.description}
                       
                     />
                   </div>
@@ -62,7 +60,8 @@ class UserRegister extends Component {
                   <div className="control">
                     <input className="input" type="email" name="mail" placeholder="E-mail"
                       id="mail"
-                      value={formData.mail}   
+                      onChange={handleForInputChangeOnForm.bind(this)}
+                      value={formData.snap_date}   
                     />
                   </div>
                 </div>
@@ -70,7 +69,7 @@ class UserRegister extends Component {
               <Column isSize={4}>
                 <div className="field">
                   <div className="control">
-                    <button className={`button is-yellow ${isLoading ? 'is-loading' : ''}`} type="submit" onClick={this.startUpload.bind(this)}>Cadastrar</button>
+                    <button className={`button is-yellow ${isLoading ? 'is-loading' : ''}`} type="submit" onClick={this.onClick}>Cadastrar</button>
                   </div>
                 </div>
               </Column>

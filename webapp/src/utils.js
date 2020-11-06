@@ -24,3 +24,17 @@ export const put = (resource, body) => {
 export const del = (resource, body) => {
   return axios.delete(`${API}/${resource}`, { ...body });
 }
+
+export function handleForInputChangeOnForm(event, callBackHandler) {
+  const formData = { ...this.state.formData };
+  const value = event.target.value;
+
+  const nodes = `${event.target.id}`.split('.');
+
+  if(nodes.length === 1)
+    formData[nodes[0]] = value;
+  else
+    formData[nodes[0]][nodes[1]] = value;
+
+  this.setState({ formData: formData }, callBackHandler);
+}
