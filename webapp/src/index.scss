@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+// Import only what you need from Bulma
+@import '../node_modules/bulma/sass/utilities/_all.sass';
+@import '../node_modules/bulma/sass/base/_all.sass';
+@import '../node_modules/bulma/sass/elements/button.sass';
+@import '../node_modules/bulma/sass/elements/container.sass';
+@import '../node_modules/bulma/sass/elements/form.sass';
+@import '../node_modules/bulma/sass/elements/title.sass';
+@import '../node_modules/bulma/sass/components/navbar.sass';
+@import '../node_modules/bulma/sass/layout/hero.sass';
+@import '../node_modules/bulma/sass/layout/section.sass';
+@import '../node_modules/bulma/bulma.sass';
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.has-text-yellow {
+  color: #FFD100;
+}
+
+.button.is-yellow {
+  background-color: #FFD100;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-yellow:hover {
+  background-color: #FFc100;
+  border-color: transparent;
+  color: #fff;
+}
+.button.is-yellow:active {
+  background-color: #FFb100;
+  border-color: transparent;
+  color: #fff;
+}
+body, button, input, select, textarea {
+  font-family: "Titillium Web",sans-serif;
+}
