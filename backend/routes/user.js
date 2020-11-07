@@ -11,7 +11,6 @@ UserRouter.post('/', (req, res) => {
   const { site } = req.query;
   const {name, mail} = req.body
 
-
   UserController.createUser(name, mail)
     .then(resolveds => res.send({ data: resolveds }))
     .catch(err => {
@@ -42,9 +41,7 @@ UserRouter.post('/sendEmails', (req, res) => {
     console.log(err)
     res.status(400).send({ error: err.toString() })
   });
-})
-
-
+});
 
 UserRouter.put('/:id', (req, res) => {
   const {id} = req.params;
