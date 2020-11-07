@@ -1,0 +1,9 @@
+{
+  "name": "ondadura-ticket",
+  "version": "0.1.0",
+  "scripts": {
+     "clean": "rm -r backend/public",
+     "move": "mv webapp/build backend/public",
+     "build": "yarn clean && cd webapp && yarn build && cd .. && yarn move"
+  }
+}

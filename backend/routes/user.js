@@ -1,11 +1,8 @@
 
 const express = require('express');
-
+const UserRouter = express.Router();
 const UserController = require('../controller/user');
 
-const UserRouter = express.Router();
-
-const jwtToken =require('jsonwebtoken');
 
 UserRouter.post('/', (req, res) => {
   const { site } = req.query;
@@ -33,7 +30,7 @@ UserRouter.get('/', (req, res) => {
   return;
 });
 
-UserRouter.post('/sendEmails', (req, res) => {
+UserRouter.post('/sendemail', (req, res) => {
   const {order} = req.body;
   UserController.sendEmails(order)
   .then(resolveds => res.send({ data: resolveds }))

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/onda-dura-ticket', {useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
+mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

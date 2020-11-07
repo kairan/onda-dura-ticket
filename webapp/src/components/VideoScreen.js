@@ -5,14 +5,15 @@ import * as jwtToken from 'jsonwebtoken';
 import {put} from '../utils'
 
 class VideoScreen extends Component{
-  constructor(props) {
-    super(props)
 
+  constructor(props) {
+    super(props);
     this.state ={
       decoded: {},
       isAuthOK: true
     }
   }
+
   componentDidMount(){
     const {jwt } = this.props;
 
