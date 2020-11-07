@@ -8,12 +8,15 @@ const app = express();
 
 const UserRouter = require('./routes/user');
 
+const VideoRouter = require('./routes/video');
+
 global.rootAppPath = path.resolve(__dirname);
 
 app.use(bodyParser.json())
 app.use(cors('*'));
 
 app.use('/api/users', UserRouter);
+app.use('/api/videos', VideoRouter);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));

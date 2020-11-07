@@ -5,6 +5,8 @@ const UserController = require('../controller/user');
 
 const UserRouter = express.Router();
 
+const jwtToken =require('jsonwebtoken');
+
 UserRouter.post('/', (req, res) => {
   const { site } = req.query;
   const {name, mail} = req.body
@@ -32,6 +34,18 @@ UserRouter.get('/', (req, res) => {
   return;
 });
 
+UserRouter.post('/sendEmails', (req, res) => {
+  const {order} = req.body;
+  UserController.sendEmails(order)
+  .then(resolveds => res.send({ data: resolveds }))
+  .catch(err => {
+    console.log(err)
+    res.status(400).send({ error: err.toString() })
+  });
+})
+
+
+
 UserRouter.put('/:id', (req, res) => {
   const {id} = req.params;
 
@@ -41,8 +55,30 @@ UserRouter.put('/:id', (req, res) => {
       console.log(err)
       res.status(400).send({ error: err.toString() })
     });
+});
+
+
+UserRouter.put('/:id/video-watched', (req, res) => {
+  const {id} = req.params;
+  const {order} = req.body;
+  let promise;
+  if(order === 1 ) {
+    promise = UserController.updateUser(id, {watchedVideo1: true});
+  }else if(order === 2){
+    promise = UserController.updateUser(id, {watchedVideo2: true});
+  }else if(order === 3){
+    promise = UserController.updateUser(id, {watchedVideo3: true});
+  }else {
+    promise = UserController.updateUser(id, {watchedVideo4: true});
+  }
+
+  promise
+    .then(resolveds => res.send({ data: resolveds }))
+    .catch(err => {
+      console.log(err)
+      res.status(400).send({ error: err.toString() })
+    });
 
   return;
 });
-
 module.exports = UserRouter
