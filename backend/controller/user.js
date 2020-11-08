@@ -3,6 +3,7 @@ const jwtToken = require('jsonwebtoken');
 const UserModel = require('../models/User')
 const VideoController = require('./video')
 const Email = require('../email');
+const { template } = require('../email/template');
 
 const createUser = async (name, mail) => {
   const userExits = await UserModel.exists({mail: mail})
@@ -36,11 +37,11 @@ const sendEmails = async order => {
 
   const emailSent = users.map(async user => {
     const jwt = jwtToken.sign({ userId: user._id, url:  video.url, order: video.order}, 'OndaDuraJaragua');
-    // await Email.sendEmail({
-    //   ...Email.emailDataTemplate,
-    //   to: user.mail,
-    //   text: `http://localhost:8080?jwt=${jwt}`
-    // });
+    await Email.sendEmail({
+      ...Email.emailDataTemplate,
+      to: user.mail,
+      text: template(`http://familiarizando.ondadurajaraguadosul.com.br:8080?jwt=${jwt}`)
+    });
 
     const userNewData = {
       ...user._doc,
