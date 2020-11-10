@@ -40,6 +40,16 @@ UserRouter.post('/sendemail', (req, res) => {
   });
 });
 
+UserRouter.post('/sendemail-nonwatchers', (req, res) => {
+  const {order} = req.body;
+  UserController.sendEmailsToNonWatchers(order)
+  .then(resolveds => res.send({ data: resolveds }))
+  .catch(err => {
+    console.log(err)
+    res.status(400).send({ error: err.toString() })
+  });
+});
+
 UserRouter.put('/:id', (req, res) => {
   const {id} = req.params;
 

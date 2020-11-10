@@ -3,7 +3,7 @@ const jwtToken = require('jsonwebtoken');
 const UserModel = require('../models/User')
 const VideoController = require('./video')
 const Email = require('../email');
-const { template } = require('../email/template');
+const { templateToWatch, templateToNonWatchers } = require('../email/template');
 
 const createUser = async (name, mail) => {
   const userExits = await UserModel.exists({mail: mail})
@@ -31,6 +31,12 @@ const listUsers = async () =>{
   return await UserModel.find()
 }
 
+const listUsersDidNotWatchOrder = async (order) => { 
+  const body = {}
+  body[`watchedVideo${order}`] = undefined
+  return await UserModel.find(body)
+}
+
 const sendEmails = async order => {
   const video = await VideoController.getVideo(order);
   const users = await listUsers();
@@ -40,22 +46,29 @@ const sendEmails = async order => {
     await Email.sendEmail({
       ...Email.emailDataTemplate,
       to: user.mail,
-      text: template(`http://familiarizando.ondadurajaraguadosul.com.br:8080?jwt=${jwt}`)
+      text: templateToWatch(`http://familiarizando.ondadurajaraguadosul.com.br:8080?jwt=${jwt}`)
     });
 
-    const userNewData = {
-      ...user._doc,
-      ordersEmailSent: [
-        ...user.ordersEmailSent || [],
-        {
-          order,
-          timesent: new Date()
-        }
-      ]
-    };
-    console.log('Sended', userNewData);
-    return updateUser(user._id, userNewData);
+    return user;
   })
+  return Promise.all(emailSent);
+}
+
+const sendEmailsToNonWatchers = async (order) => {
+  const video = await VideoController.getVideo(order);
+  const users = await listUsersDidNotWatchOrder(order);
+
+  const emailSent = users.map(async user => {
+    const jwt = jwtToken.sign({ userId: user._id, url:  video.url, order: video.order}, 'OndaDuraJaragua');
+    const emailContent = templateToNonWatchers(user.name, `http://familiarizando.ondadurajaraguadosul.com.br:8080?jwt=${jwt}`);
+    await Email.sendEmail({
+      ...Email.emailDataTemplate,
+      to: user.mail,
+      text: emailContent
+    });
+    return user;
+  });
+
   return Promise.all(emailSent);
 }
 
@@ -63,5 +76,6 @@ module.exports = {
   createUser,
   listUsers,
   updateUser,
-  sendEmails
+  sendEmails,
+  sendEmailsToNonWatchers
 }
