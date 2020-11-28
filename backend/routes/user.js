@@ -26,9 +26,19 @@ UserRouter.get('/', (req, res) => {
       console.log(err)
       res.status(400).send({ error: err.toString() })
     });
-
-  return;
 });
+
+UserRouter.get('/:id', (req, res) =>{
+  const {id} = req.params;
+  UserController.getUserById(id)
+  .then(resolveds => {
+    res.send({ data: resolveds })
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(400).send({ error: err.toString() })
+  });
+})
 
 UserRouter.post('/sendemail', (req, res) => {
   const {order} = req.body;

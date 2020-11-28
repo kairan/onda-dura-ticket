@@ -27,6 +27,10 @@ const updateUser = async (id, user) => {
   return newUserData;
 }
 
+const getUserById = async (id) =>{ 
+  return await UserModel.findById(id)
+}
+
 const listUsers = async () =>{ 
   return await UserModel.find()
 }
@@ -77,5 +81,6 @@ module.exports = {
   listUsers,
   updateUser,
   sendEmails,
+  getUserById,
   sendEmailsToNonWatchers
 }

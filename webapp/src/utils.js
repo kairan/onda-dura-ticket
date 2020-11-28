@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export const get = (resource) => {
-  return axios.get(`${API}${resource}`)
+  return axios.get(`${API}/${resource}`)
 }
 
 export const post = (resource, body) => {

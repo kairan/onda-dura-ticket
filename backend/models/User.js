@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   mail: String,
   role: String,
+  isPresencial: Boolean,
   watchedVideo1: Boolean,
   watchedVideo2: Boolean,
   watchedVideo3: Boolean,
