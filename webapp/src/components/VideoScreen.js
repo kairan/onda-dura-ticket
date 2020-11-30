@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 
 import ReactPlayer from "react-player";
 import * as jwtToken from 'jsonwebtoken';
-import Columns, { Column } from './Columns';
-import {put,get} from '../utils'
-import notification from '../notification'
+import {put} from '../utils'
 
 class VideoScreen extends Component{
 
