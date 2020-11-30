@@ -3,7 +3,7 @@ const jwtToken = require('jsonwebtoken');
 const UserModel = require('../models/User')
 const VideoController = require('./video')
 const Email = require('../email');
-const { templateToWatch, templateToNonWatchers } = require('../email/template');
+const { templateToWatch, templateToNonWatchers, templateToTest } = require('../email/template');
 
 const createUser = async (name, mail) => {
   const userExits = await UserModel.exists({mail: mail})
@@ -39,6 +39,19 @@ const listUsersDidNotWatchOrder = async (order) => {
   const body = {}
   body[`watchedVideo${order}`] = undefined
   return await UserModel.find(body)
+}
+
+const sendTest = async () =>{
+  const users = await listUsers();
+  users.map(async user => {
+    await Email.sendEmail({
+      ...Email.emailDataTemplateTest,
+      to: user.mail,
+      text: templateToTest(user.name, `https://docs.google.com/forms/d/e/1FAIpQLScvna8GMSUgC_xTF2rCxbNgg92JxsX4UcULL-Ih_SsEcDMx3w/viewform`)
+    });
+
+    return user;
+  })
 }
 
 const sendEmails = async order => {
@@ -82,5 +95,6 @@ module.exports = {
   updateUser,
   sendEmails,
   getUserById,
-  sendEmailsToNonWatchers
+  sendEmailsToNonWatchers,
+  sendTest
 }

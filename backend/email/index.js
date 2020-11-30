@@ -12,6 +12,13 @@ const emailDataTemplate = {
   text: ''
 }
 
+const emailDataTemplateTest = {
+  from: 'Não responder Onda Dura Jaraguá do Sul <naoresponder@ondadurajaraguadosul.com.br>',
+  to: '',
+  subject: 'Link Avaliação do Familiarizando | Onda Dura Jaraguá do Sul - SC',
+  text: ''
+}
+
 const sendEmail = (emailData) => {
   return client.messages().send(emailData, (err, body) => {
     console.log(body);
@@ -20,7 +27,8 @@ const sendEmail = (emailData) => {
 
 module.exports = {
   sendEmail,
-  emailDataTemplate
+  emailDataTemplate,
+  emailDataTemplateTest
 }
 
 
